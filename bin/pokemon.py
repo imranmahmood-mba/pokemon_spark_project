@@ -43,6 +43,52 @@ class Pokemon:
         self.species = self.pokemon['species']
         self.stats = self.pokemon['stats']
         self.types = self.pokemon['types']
-
-char = Pokemon(pokemon_api=PokemonAPI(), pokemon_name='charizard').types
-print(char)
+    @property
+    def get_types(self):
+        type_list = []
+        types = self.types
+        for type in types:
+            type_list.append(type['type']['name'])
+        return {'types':type_list}
+    @property
+    def get_abilities(self):
+        abilities_list = []
+        abilities = self.abilities
+        for ability in abilities:
+            abilities_list.append(ability['ability']['name'])
+        return {'abilities':abilities_list}
+    @property
+    def get_forms(self):
+        forms_list = []
+        forms = self.forms
+        for form in forms:
+            forms_list.append(form['name'])
+        return {'forms':forms_list}
+    @property
+    def get_games(self):
+        games_list = []
+        games = self.game_indicies
+        for game in games:
+            games_list.append(game['version']['name'])
+        return {'games':games_list}
+    @property
+    def get_held_items(self):
+        held_items_list = []
+        held_items_dict = {}
+        version_list = []
+        held_items = self.held_items
+        for item in held_items:
+            held_items_dict['item'] = item['item']['name']
+            for version in item['version_details']:
+                version_list.append(version['version']['name'])
+            held_items_dict['version'] = version_list
+            held_items_list.append(held_items_dict)
+        return held_items_list
+    @property
+    def get_moves(self):
+        move_list = []
+        moves = self.moves
+        for move in moves:
+            move_list.append(move['move']['name'])
+        return move_list
+        
