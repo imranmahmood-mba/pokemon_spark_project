@@ -6,7 +6,6 @@ class IPokemonAPI(ABC):
     def get_pokemon(self, pokemon_name:str=None, id:int=None):
         pass
 
-
 class PokemonAPI(IPokemonAPI):
     def __init__(self):
         self.base_url = 'https://pokeapi.co/api/v2'
