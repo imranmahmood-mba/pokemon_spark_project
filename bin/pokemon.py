@@ -1,6 +1,13 @@
 import requests as r
+from abc import ABC, abstractmethod
 
-class PokemonAPI:
+class IPokemonAPI(ABC):
+    @abstractmethod
+    def get_pokemon(self, pokemon_name:str=None, id:int=None):
+        pass
+
+
+class PokemonAPI(IPokemonAPI):
     def __init__(self):
         self.base_url = 'https://pokeapi.co/api/v2'
 
@@ -16,9 +23,8 @@ class PokemonAPI:
         return response.json()
 
 class Pokemon:
-    def __init__(self, pokemon_name:str=None, id:int=None):
-        api = PokemonAPI()
-        self.pokemon = api.get_pokemon(pokemon_name, id)
+    def __init__(self, pokemon_api: PokemonAPI, pokemon_name:str=None, id:int=None):
+        self.pokemon = pokemon_api.get_pokemon(pokemon_name, id)
     @property
     def get_name(self):
         return self.pokemon['name']
@@ -74,7 +80,5 @@ class Pokemon:
     def get_types(self):
         return self.pokemon['types']
 
-    
-
-char = Pokemon('charizard').get_types
+char = Pokemon(pokemon_api=PokemonAPI(), pokemon_name='charizard').get_types
 print(char)
