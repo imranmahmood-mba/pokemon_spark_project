@@ -23,7 +23,7 @@ class PokemonAPI(IPokemonAPI):
         return response.json()
 
 class Pokemon:
-    def __init__(self, pokemon_api: PokemonAPI, pokemon_name:str=None, id:int=None):
+    def __init__(self, pokemon_api: IPokemonAPI, pokemon_name:str=None, id:int=None):
         self.pokemon = pokemon_api.get_pokemon(pokemon_name, id)
     @property
     def get_name(self):
@@ -80,5 +80,5 @@ class Pokemon:
     def get_types(self):
         return self.pokemon['types']
 
-char = Pokemon(pokemon_api=PokemonAPI(), pokemon_name='charizard').get_types
+char = Pokemon(pokemon_api=PokemonAPI(), pokemon_name='charizard').get_stats
 print(char)
