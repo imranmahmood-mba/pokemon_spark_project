@@ -5,6 +5,8 @@ class IPokemonAPI(ABC):
     @abstractmethod
     def get_pokemon(self, pokemon_name:str=None, id:int=None):
         pass
+    def get_evolutions(self, id:int):
+        pass
 
 class PokemonAPI(IPokemonAPI):
     def __init__(self):
@@ -20,10 +22,23 @@ class PokemonAPI(IPokemonAPI):
 
         response = r.get(endpoint)
         return response.json()
+    
+    def get_evolutions(self, pokemon_name:str=None, id:int=None):
+        if pokemon_name:
+            endpoint = f"{self.base_url}/pokemon-species/{pokemon_name.lower()}"
+        elif id:
+            endpoint = f"{self.base_url}/pokemon-species/{id}"
+        else:
+            return "Please provide either a Pokémon name or ID" 
+
+        response = r.get(endpoint)
+        return response.json()
+
 
 class Pokemon:
     def __init__(self, pokemon_api: IPokemonAPI, pokemon_name:str=None, id:int=None):
         self.pokemon = pokemon_api.get_pokemon(pokemon_name, id)
+        self.evolutions = pokemon_api.get_evolutions(pokemon_name, id)
         self.id = self.pokemon['id']
         self.name = self.pokemon['name']
         self.base_experience = self.pokemon['base_experience']
@@ -42,6 +57,8 @@ class Pokemon:
         self.species = self.pokemon['species']
         self.stats = self.pokemon['stats']
         self.types = self.pokemon['types']
+        self.previous_evolution = self.evolutions['evolves_from_species']
+
     @property
     def get_types(self):
         type_list = []
