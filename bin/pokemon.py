@@ -58,7 +58,7 @@ class Pokemon:
         self.stats = self.pokemon['stats']
         self.types = self.pokemon['types']
         self.previous_evolution = self.evolutions['evolves_from_species']
-
+        
     @property
     def get_types(self):
         type_list = []
@@ -107,4 +107,15 @@ class Pokemon:
         for move in moves:
             move_list.append(move['move']['name'])
         return move_list
-        
+    @property
+    def get_previous_evolution_id(self):
+        try:
+            previous_evolution_name = self.previous_evolution['name']
+            id = Pokemon(PokemonAPI(), pokemon_name=previous_evolution_name).id
+        except TypeError:
+            return None
+        else:
+            return id
+    
+char = Pokemon(PokemonAPI(), pokemon_name='pikachu')
+print(char.get_previous_evolution_id)
