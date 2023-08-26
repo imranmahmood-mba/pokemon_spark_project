@@ -57,8 +57,7 @@ class Pokemon:
         self.species = self.pokemon['species']
         self.stats = self.pokemon['stats']
         self.types = self.pokemon['types']
-        self.previous_evolution = self.evolutions['evolves_from_species']
-        
+        self.previous_evolution = self.evolutions['evolves_from_species']    
     @property
     def get_types(self):
         type_list = []
@@ -116,6 +115,13 @@ class Pokemon:
             return None
         else:
             return id
-    
-char = Pokemon(PokemonAPI(), pokemon_name='pikachu')
-print(char.get_previous_evolution_id)
+    @property
+    def get_stats(self):
+        stat_list = []
+        stats = self.stats
+        for stat in stats:
+            stat_list.append({stat['stat']['name']:stat['base_stat']})
+        return stat_list
+
+char = Pokemon(PokemonAPI(), pokemon_name='charizard')
+print(char.get_stats)
