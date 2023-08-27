@@ -1,5 +1,11 @@
 import requests as r
 from abc import ABC, abstractmethod
+from urllib.parse import urlparse
+
+def get_number_from_url(url):
+    parsed_url = urlparse(url)
+    path_parts = parsed_url.path.strip('/').split('/')
+    return path_parts[-1] if path_parts[-1].isdigit() else None
 
 class IPokemonAPI(ABC):
     @abstractmethod
@@ -84,7 +90,8 @@ class Pokemon:
         games_list = []
         games = self.game_indicies
         for game in games:
-            games_list.append(game['version']['name'])
+            games_list.append({'game_id':get_number_from_url(game['version']['url']), 
+                                                             'game':game['version']['name']})
         return {'games':games_list}
     @property
     def get_held_items(self):
@@ -104,7 +111,8 @@ class Pokemon:
         move_list = []
         moves = self.moves
         for move in moves:
-            move_list.append(move['move']['name'])
+            move_list.append({'move_id': get_number_from_url(move['move']['url']),
+                              'move':move['move']['name']})
         return move_list
     @property
     def get_previous_evolution_id(self):
@@ -123,5 +131,5 @@ class Pokemon:
             stat_list.append({stat['stat']['name']:stat['base_stat']})
         return stat_list
 
-char = Pokemon(PokemonAPI(), pokemon_name='charizard')
-print(char.get_stats)
+char = Pokemon(PokemonAPI(), id=1)
+print(char.get_games) 
