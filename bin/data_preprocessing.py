@@ -76,6 +76,15 @@ class Dataset:
             games['id'] = id
             list_of_games.append(games)            
         return list_of_games
+    
+    def format_previous_evolutions(self, list_of_pokemon_ids):
+        list_of_evolutions = []
+        for id in list_of_pokemon_ids:
+            pokemon = p.Pokemon(p.PokemonAPI(), id=id)
+            evolution = pokemon.get_previous_evolution_id
+            pokemon_dict = {'pokemon_id': id, 'evolution_id': evolution if evolution is not None else 0}
+            list_of_evolutions.append(pokemon_dict)            
+        return list_of_evolutions
 
-df = Dataset(p.PokemonAPI(), 3)
-print(df.format_games(df.list_of_pokemon_ids))
+df = Dataset(p.PokemonAPI(), 4)
+print(df.format_previous_evolutions(df.list_of_pokemon_ids))

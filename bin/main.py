@@ -6,9 +6,9 @@ import pandas as pd
 
 
 def get_pokemon_fact_data():
-    pokemon_list = []
-    for i in range(2, 3):
-        pokemon = p.Pokemon(pokemon_api=p.PokemonAPI(), id=i)
+    pokemon_data = dp.Dataset(p.PokemonAPI(), 3)
+    for i in pokemon_data.list_of_pokemon_ids:
+        pokemon_data.pokemon.weight
         types = pokemon.get_types
         stats = pokemon.stats
         abilities = pokemon.get_abilities
@@ -19,7 +19,7 @@ def get_pokemon_fact_data():
         height = pokemon.height
         weight = pokemon.weight
         moves = pokemon.get_stats
-        evolutions = pokemon.get_previous_evolution_idss
+        evolutions = pokemon.get_previous_evolution_ids
     pokemon_list.extend([evolutions, types, stats, abilities, 
                          games, moves, p_id, name, weight, height])
     return pokemon_list
