@@ -19,8 +19,8 @@ def get_pokemon_fact_data():
         height = pokemon.height
         weight = pokemon.weight
         moves = pokemon.get_stats
-    pokemon_list.extend([evol, types, stats, abilities, 
+        evolutions = pokemon.get_previous_evolution_idss
+    pokemon_list.extend([evolutions, types, stats, abilities, 
                          games, moves, p_id, name, weight, height])
     return pokemon_list
 
-print(df)

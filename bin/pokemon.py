@@ -131,5 +131,5 @@ class Pokemon:
             stat_list.append({stat['stat']['name']:stat['base_stat']})
         return stat_list
 
-char = Pokemon(PokemonAPI(), id=1)
-print(char.get_games) 
+char = Pokemon(PokemonAPI(), id=2)
+print(char.get_previous_evolution_id) 
