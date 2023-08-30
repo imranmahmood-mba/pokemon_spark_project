@@ -132,3 +132,6 @@ class Pokemon:
             stat_dict[stat['stat']['name']] = stat['base_stat']
         stat_list.append(stat_dict)
         return stat_list
+    
+# pokemon = Pokemon(PokemonAPI(), 'charizard')
+# print(pokemon.name)

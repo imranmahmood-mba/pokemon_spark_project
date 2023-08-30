@@ -9,22 +9,32 @@ def get_pokemon_fact_data():
     pokemon_data = dp.Dataset(p.PokemonAPI(), 3)
     weight = pokemon_data.format_weight(pokemon_data.list_of_pokemon_ids)
     height = pokemon_data.format_height(pokemon_data.list_of_pokemon_ids)
+    types = pokemon_data.format_types(pokemon_data.list_of_pokemon_ids)
+    stats = pokemon_data.format_stats(pokemon_data.list_of_pokemon_ids)
+    abilities = pokemon_data.format_abilities(pokemon_data.list_of_pokemon_ids)
+    games = pokemon_data.format_games(pokemon_data.list_of_pokemon_ids)
+    moves = pokemon_data.format_moves(pokemon_data.list_of_pokemon_ids)
+    name = pokemon_data.format_names(pokemon_data.list_of_pokemon_ids)
+    evolutions = pokemon_data.format_previous_evolutions(pokemon_data.list_of_pokemon_ids)
+    print(weight, height, types, stats, abilities, games, moves, name)
 
-    # types = pokemon_data.
-    # stats = pokemon.stats
-    # abilities = pokemon.get_abilities
-    # games = pokemon.get_games
-    # moves = pokemon.get_moves
-    # p_id = pokemon.id
-    # name = pokemon.name
-    # height = pokemon.height
-    # moves = pokemon.get_stats
-    # evolutions = pokemon.get_previous_evolution_ids
-    
-    # pokemon_list.extend([evolutions, types, stats, abilities, 
-    #                      games, moves, p_id, name, weight, height])
-    # return pokemon_list
-    print(weight)
-    print(height)
+def game_dimension(number_of_pokemon:int):
+    pokemon_data = dp.Dataset(p.PokemonAPI(), number_of_pokemon=number_of_pokemon)
+    games = pokemon_data.format_games(pokemon_data.list_of_pokemon_ids)
+    return games
 
-get_pokemon_fact_data()
+def pokemon_dimension(number_of_pokemon:int):
+    pokemon_data = dp.Dataset(p.PokemonAPI(), number_of_pokemon=number_of_pokemon)
+    name = pokemon_data.format_names(pokemon_data.list_of_pokemon_ids)
+    f_name = pokemon_data.flatten_names(name)
+    evolutions = pokemon_data.format_previous_evolutions(pokemon_data.list_of_pokemon_ids)
+    f_evolutions = pokemon_data.flatten_evolutions(pokemon_data.list_of_pokemon_ids, f_name)
+    types = pokemon_data.format_types(pokemon_data.list_of_pokemon_ids)
+    f_types = pokemon_data.format_types(pokemon_data.list_of_pokemon_ids, f_evolutions)
+    print(f_types)
+
+
+
+
+
+pokemon_dimension(3)

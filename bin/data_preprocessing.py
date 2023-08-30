@@ -91,6 +91,46 @@ class Dataset:
             pokemon_dict = {'pokemon_id': id, 'evolution_id': evolution if evolution is not None else 0}
             list_of_evolutions.append(pokemon_dict)            
         return list_of_evolutions
+    
+    def format_types(self, list_of_pokemon_ids):
+        list_of_types = []
+        for id in list_of_pokemon_ids:
+            pokemon = p.Pokemon(p.PokemonAPI(), id=id)
+            types = pokemon.get_types
+            types['pokemon_id'] = id
+            list_of_types.append(types)            
+        return list_of_types
+    
+    def format_names(self, list_of_pokemon_ids):
+        list_of_names = []
+        for id in list_of_pokemon_ids:
+            pokemon = p.Pokemon(p.PokemonAPI(), id=id)
+            name = pokemon.name
+            name_dict = {'pokemon_id':id, 'name':name}
+            list_of_names.append(name_dict)            
+        return list_of_names   
 
-df = Dataset(p.PokemonAPI(), 4)
-print(df.format_previous_evolutions(df.list_of_pokemon_ids))
+    def flatten_names(self, pokemon_name_list, flattened_pokemon={}):
+        for name in pokemon_name_list:
+            pokemon_id = name['pokemon_id']
+            if pokemon_id not in flattened_pokemon:
+                flattened_pokemon[pokemon_id] = {}
+            flattened_pokemon[pokemon_id].update(name) 
+        return flattened_pokemon
+    def flatten_evolutions(self, pokemon_evolutions_list, flattened_pokemon={}):
+        for evolution in pokemon_evolutions_list:
+            pokemon_id = evolution['pokemon_id']
+            if pokemon_id not in pokemon_evolutions_list:
+                flattened_pokemon[pokemon_id] = {}
+            flattened_pokemon[pokemon_id].update(evolution)
+        return flattened_pokemon
+    def flatten_types(self, pokemon_type_list, flattened_pokemon={}):
+        for type in pokemon_type_list:
+            pokemon_id = type['pokemon_id']
+            if pokemon_id not in pokemon_type_list:
+                flattened_pokemon[pokemon_id] = {}
+            flattened_pokemon[pokemon_id].update(type)
+        return flattened_pokemon
+
+# df = Dataset(p.PokemonAPI(), 4)
+# print(df.format_types(df.list_of_pokemon_ids))
