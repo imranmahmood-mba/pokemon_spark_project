@@ -126,10 +126,9 @@ class Pokemon:
     @property
     def get_stats(self):
         stat_list = []
+        stat_dict = {}
         stats = self.stats
         for stat in stats:
-            stat_list.append({stat['stat']['name']:stat['base_stat']})
+            stat_dict[stat['stat']['name']] = stat['base_stat']
+        stat_list.append(stat_dict)
         return stat_list
-
-#char = Pokemon(PokemonAPI(), id=1)
-#print(char.get_previous_evolution_id) 

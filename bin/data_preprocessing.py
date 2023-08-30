@@ -30,7 +30,7 @@ class Dataset:
         for id in list_of_pokemon_ids:
             pokemon = p.Pokemon(p.PokemonAPI(), id=id)
             weight = pokemon.weight
-            list_of_weights.append({'id':id, 'weight':weight})
+            list_of_weights.append({'pokemon_id':id, 'weight':weight})
         return list_of_weights  
     
     def format_height(self, list_of_pokemon_ids):
@@ -38,7 +38,7 @@ class Dataset:
         for id in list_of_pokemon_ids:
             pokemon = p.Pokemon(p.PokemonAPI(), id=id)
             height = pokemon.height
-            list_of_heights.append({'id':id, 'height':height})
+            list_of_heights.append({'pokemon_id':id, 'height':height})
         return list_of_heights  
     
     def format_stats(self, list_of_pokemon_ids):
@@ -46,8 +46,8 @@ class Dataset:
         for id in list_of_pokemon_ids:
             pokemon = p.Pokemon(p.PokemonAPI(), id=id)
             stats = pokemon.get_stats
-            stats.append({'id':id})
-            list_of_stats.append(stats)
+            stats[0]['pokemon_id'] = id
+        list_of_stats.append(stats)
         return list_of_stats
     
     def format_moves(self, list_of_pokemon_ids):
@@ -55,7 +55,8 @@ class Dataset:
         for id in list_of_pokemon_ids:
             pokemon = p.Pokemon(p.PokemonAPI(), id=id)
             moves = pokemon.get_moves
-            moves.append({'id':id})
+            for i in range(len(moves)):
+                moves[i]['pokemon_id'] = id
             list_of_moves.append(moves)            
         return list_of_moves
     
@@ -64,7 +65,7 @@ class Dataset:
         for id in list_of_pokemon_ids:
             pokemon = p.Pokemon(p.PokemonAPI(), id=id)
             abilities = pokemon.get_abilities
-            abilities['id'] = id
+            abilities['pokemon_id'] = id
             list_of_abilities.append(abilities)            
         return list_of_abilities
     
@@ -73,8 +74,13 @@ class Dataset:
         for id in list_of_pokemon_ids:
             pokemon = p.Pokemon(p.PokemonAPI(), id=id)
             games = pokemon.get_games
-            games['id'] = id
-            list_of_games.append(games)            
+            if isinstance(games, dict):  # Make sure it's a dictionary
+                inner_games = games.get('games', [])  # Get the inner 'games' list
+                for inner_game in inner_games:
+                    inner_game['pokemon_id'] = id  # Add the pokemon_id to each inner game dictionary
+                list_of_games.append(games)
+            else:
+                print(f"Warning: Unexpected type {type(games)} for games")
         return list_of_games
     
     def format_previous_evolutions(self, list_of_pokemon_ids):
