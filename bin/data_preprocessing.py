@@ -36,7 +36,8 @@ class Dataset:
             flattened_pokemon[pokemon_id].update(item) 
         return flattened_pokemon
         
-    def flatten_field(self, pokemon_field_list, field_name, flattened_pokemon={}):
+    def flatten_field(self, pokemon_field_list, field_name):
+        flattened_pokemon = {}
         for item in pokemon_field_list:
             pokemon_id = item['pokemon_id']
             if pokemon_id not in flattened_pokemon:
@@ -132,13 +133,10 @@ class PokemonFormatter(IPokemonFormatter):
         for id in list_of_pokemon_ids:
             pokemon = p.Pokemon(self.pokemon_api, id=id)
             games = pokemon.get_games
-            #if isinstance(games, dict):  # Make sure it's a dictionary
             inner_games = games.get('games', [])  # Get the inner 'games' list
             for inner_game in inner_games:
                 inner_game['pokemon_id'] = id  # Add the pokemon_id to each inner game dictionary
             list_of_games.append(games)
-        else:
-            print(f"Warning: Unexpected type {type(games)} for games")
         return list_of_games
     
     def format_previous_evolutions(self, list_of_pokemon_ids):
