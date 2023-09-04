@@ -167,8 +167,8 @@ class PokemonFormatter(IPokemonFormatter):
         return list_of_names   
     
 
-pokemon_api = p.PokemonAPI()  # Assuming PokemonAPI is your API class
-dataset = Dataset(pokemon_api, 10)
+# pokemon_api = p.PokemonAPI()  # Assuming PokemonAPI is your API class
+# dataset = Dataset(pokemon_api, 10)
 
-formatted_weights = dataset.pokemon_formatter.format_weight(dataset.list_of_pokemon_ids)
-print(formatted_weights)
+# formatted_weights = dataset.pokemon_formatter.format_weight(dataset.list_of_pokemon_ids)
+# print(formatted_weights)

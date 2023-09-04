@@ -24,10 +24,11 @@ def game_dimension(number_of_pokemon:int):
     return games
 
 def pokemon_dimension(number_of_pokemon:int):
-    pokemon_data = dp.Dataset(p.PokemonAPI(), number_of_pokemon=number_of_pokemon)
-    name = pokemon_data.format_names(pokemon_data.list_of_pokemon_ids)
-    evolutions = pokemon_data.format_previous_evolutions(pokemon_data.list_of_pokemon_ids)
-    types = pokemon_data.format_types(pokemon_data.list_of_pokemon_ids)
+    pokemon_api = p.PokemonAPI()
+    dataset = dp.Dataset(pokemon_api=pokemon_api, number_of_pokemon=number_of_pokemon)
+    name = dataset.pokemon_formatter.format_names(dataset.list_of_pokemon_ids)
+    evolutions = dataset.pokemon_formatter.format_previous_evolutions(dataset.list_of_pokemon_ids)
+    types = dataset.pokemon_formatter.format_types(dataset.list_of_pokemon_ids)
     field_list = [name, evolutions, types]
     return dp.Dataset.create_table(field_list)
 
