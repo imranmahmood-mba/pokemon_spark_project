@@ -11,7 +11,34 @@ class IPokemonAPI(ABC):
     @abstractmethod
     def get_pokemon(self, pokemon_name:str=None, id:int=None):
         pass
+    @abstractmethod
     def get_evolutions(self, id:int):
+        pass
+
+class IPokemon(ABC):
+    @abstractmethod
+    def get_types(self):
+        pass
+    @abstractmethod
+    def get_abilities(self):
+        pass
+    @abstractmethod
+    def get_forms(self):
+        pass
+    @abstractmethod
+    def get_games(self):
+        pass
+    @abstractmethod
+    def get_held_items(self):
+        pass
+    @abstractmethod
+    def get_moves(self):
+        pass
+    @abstractmethod
+    def get_previous_evolution_id(self):
+        pass
+    @abstractmethod
+    def get_stats(self):
         pass
 
 class PokemonAPI(IPokemonAPI):
@@ -41,10 +68,11 @@ class PokemonAPI(IPokemonAPI):
         return response.json()
 
 
-class Pokemon:
+class Pokemon(IPokemon):
     def __init__(self, pokemon_api: IPokemonAPI, pokemon_name:str=None, id:int=None):
-        self.pokemon = pokemon_api.get_pokemon(pokemon_name, id)
-        self.evolutions = pokemon_api.get_evolutions(pokemon_name, id)
+        self.pokemon_api = pokemon_api
+        self.pokemon = self.pokemon_api.get_pokemon(pokemon_name, id)
+        self.evolutions = self.pokemon_api.get_evolutions(pokemon_name, id)
         self.id = self.pokemon['id']
         self.name = self.pokemon['name']
         self.base_experience = self.pokemon['base_experience']
@@ -64,6 +92,7 @@ class Pokemon:
         self.stats = self.pokemon['stats']
         self.types = self.pokemon['types']
         self.previous_evolution = self.evolutions['evolves_from_species']    
+    
     @property
     def get_types(self):
         type_list = []
@@ -118,7 +147,7 @@ class Pokemon:
     def get_previous_evolution_id(self):
         try:
             previous_evolution_name = self.previous_evolution['name']
-            id = Pokemon(PokemonAPI(), pokemon_name=previous_evolution_name).id
+            id = Pokemon(self.pokemon_api, pokemon_name=previous_evolution_name).id
         except TypeError:
             return None
         else:
