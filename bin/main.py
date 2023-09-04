@@ -8,7 +8,7 @@ import pandas as pd
 def get_pokemon_fact_data(number_of_pokemon:int):
     pokemon_api = p.PokemonAPI()
     dataset = dp.Dataset(pokemon_api=pokemon_api, number_of_pokemon=number_of_pokemon)    
-    weight = dataset.pokemon_formatter.format_weight(datasets.list_of_pokemon_ids)
+    weight = dataset.pokemon_formatter.format_weight(dataset.list_of_pokemon_ids)
     height = dataset.pokemon_formatter.format_height(dataset.list_of_pokemon_ids)
     types = dataset.pokemon_formatter.format_types(dataset.list_of_pokemon_ids)
     stats = dataset.pokemon_formatter.format_stats(dataset.list_of_pokemon_ids)
